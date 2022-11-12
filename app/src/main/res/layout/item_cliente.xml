@@ -52,18 +52,31 @@
                 android:text="Email"
                 android:textAlignment="textEnd" />
 
-            <TextView
-                android:id="@+id/textTelefone"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="5dp"
+                android:layout_gravity="right"
                 android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:text="Telefone"
-                android:textAlignment="textEnd" />
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/buttonExcluir"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="#FF0000"
+                    android:text="x" />
+
+                <Button
+                    android:id="@+id/buttonEditar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:text="Editar" />
+
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

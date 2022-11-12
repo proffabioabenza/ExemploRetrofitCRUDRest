@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigation.setOnItemSelectedListener {
             when(it.itemId) {
                 R.id.adicionar -> {
-                    val frag = AdicionarClienteFragment()
+                    val frag = AdicionarClienteFragment(null)
                     supportFragmentManager.beginTransaction().replace(R.id.container, frag).addToBackStack("Adicionar").commit()
                 }
                 R.id.listar -> {

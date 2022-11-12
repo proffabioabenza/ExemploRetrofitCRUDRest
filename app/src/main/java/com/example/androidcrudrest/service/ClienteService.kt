@@ -12,7 +12,7 @@ interface ClienteService {
 
     //Obter, função GET da API do json-server com o id como parâmetro de URL
     @GET("/cliente/{id}")
-    fun get(@Path("id") id: Int): Call<Cliente>
+    fun obter(@Path("id") id: Int): Call<Cliente>
 
     //Inserir, função POST da API do json-server
     @POST("/cliente")
