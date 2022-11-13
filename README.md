@@ -37,7 +37,7 @@ O significado dos parâmetros é:
 2. Instale o Android Studio
 3. Inicie o Android Studio e faça as configurações iniciais necessárias. Se já clonou ou puxou a aplicação na configuração do back-end, pule para 8
 4. Configure o Github no Android Studio (File ou o Ícone da Engrenagem na Tela Inicial > Preferences > Version Control > Github). Caso já tenha configurado, pule esse passo
-5. Faça um fork desse repositório através do botão Fork acima
+5. Faça um fork desse repositório através do botão Fork acima desta página
 6. Vá até File > New > Project From Version Control ou, na tela inicial do Android Studio, clique no botão Get From VCS
 7. Escolha o fork desse repositório na lista e clique em Clone
 8. Quando o Android Studio terminar de configurar o projeto, clique em Device Manager e crie um novo emulador. Se já tiver um emulador, pule esse passo
