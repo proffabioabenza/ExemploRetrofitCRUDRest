@@ -3,10 +3,10 @@
 
     <item
         android:id="@+id/listar"
-        android:icon="@android:drawable/ic_menu_zoom"
+        android:icon="@android:drawable/ic_menu_search"
         android:title="Ver Todos" />
     <item
         android:id="@+id/adicionar"
-        android:icon="@android:drawable/ic_input_add"
+        android:icon="@android:drawable/ic_menu_add"
         android:title="Inserir" />
 </menu>
