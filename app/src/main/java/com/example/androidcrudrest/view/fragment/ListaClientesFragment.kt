@@ -59,6 +59,7 @@ class ListaClientesFragment : Fragment() {
         /*
             Define o callback a ser executado quando o back end responder a
             chamada da função de obtenção da lista de clientes (GET)
+
             O tipo da função de callback (generics, diamond ou <>) precisa
             ser IDÊNTICO ao definido na classe de serviço onde esse callback
             será utilizado (mais abaixo, no último comando da função)
@@ -75,6 +76,9 @@ class ListaClientesFragment : Fragment() {
                     /*
                         Se a requisição teve sucesso, chama a função para atualizar
                         a tela, fornecendo a lista de clientes com os dados para ela
+
+                        response.body() contém a lista de clientes que voltou da API
+                        já convertida em lista do kotlin (List<Cliente>)
                     */
                     val listaClientes = response.body()
                     atualizarTela(listaClientes)
@@ -104,7 +108,7 @@ class ListaClientesFragment : Fragment() {
 
         /*
             Solicita a execução do serviço de obtenção da lista de clientes pelo Retrofit
-            Chamará o serviço respectivo no back end e executará
+            Chamará o serviço respectivo no back end (GET) e executará
             o callback definido em callback quando concluído
         */
         API().cliente.listar().enqueue(callback)
@@ -116,7 +120,7 @@ class ListaClientesFragment : Fragment() {
         Recebe a lista de clientes que vieram do retrofit por parâmetro e,
         para cada cliente da lista, instancia um cartão do tipo item_cliente.xml,
         configura o conteúdo do cartão com os dados do cliente, bem como
-        as funções dos botões, e coloca o cartão dentro do container do
+        as closures dos botões, e coloca o cartão dentro do container do
         layout do fragmento fragment_lista_cliente.xml
      */
     fun atualizarTela(listaClientes: List<Cliente>?) {
@@ -158,7 +162,7 @@ class ListaClientesFragment : Fragment() {
         passando para o fragmento o id do cliente cujo cartão
         teve o botão de edição clicado
 
-        idCli pode ser null para facilitar a chamada nos elementos dinâmicos (acima)
+        idCli pode ser null (?) para facilitar a chamada nos elementos dinâmicos (acima)
      */
     fun abrirFragmentoEdicao(idCli: Int?) {
         //Se não foi fornecido um id por alguma razão, cancela a função
@@ -170,7 +174,8 @@ class ListaClientesFragment : Fragment() {
         val supportFragmentManager = activity?.supportFragmentManager
         /*
             Como activity pode ser nula, o gesto de fragmento também pode ser, por
-            isso fazemos essa verificação de nulo usando o let
+            isso fazemos essa verificação de nulo usando o let (caso supportFragmentManager
+            seja null, o conteúdo da closure do let é ignorado
         */
         supportFragmentManager?.let {
             /*
@@ -179,7 +184,7 @@ class ListaClientesFragment : Fragment() {
             */
             val frag = AdicionarClienteFragment(idCli)
             /*
-                Solicite que o gestor de fragmento troque o fragmento atualmente no
+                Solicita que o gestor de fragmentos troque o fragmento atualmente no
                 container pelo fragmento criado acima. Também adiciona a operação na pilha
                 de retorno do Android, permitindo retornar ao fragmento anterior quando
                 o botão voltar do sistema for pressionado
@@ -206,16 +211,17 @@ class ListaClientesFragment : Fragment() {
             .setMessage("Tem certeza que deseja excluir esse cliente? Essa operação não pode ser desfeita")
             .setPositiveButton("Sim") { dialgo, id ->
                 //Chama a função de exclusão caso clique em sim
+                //passando o ID do cliente a excluir pra ela
                 excluir(idCliente)
             }
-            //Caso clique em não, não faz nada (null)
+            //Caso clique em não, não faz nada (null), só fecha o diálogo
             .setNegativeButton("Não", null)
             .create()
             .show()
     }
 
     /*
-        Função de exclusão, chamará a APi solicitando a exclusão de um cliente (DELETE)
+        Função de exclusão, chamará a API solicitando a exclusão de um cliente (DELETE)
         O parâmetro da função indicará o cliente a excluir para API via parâmetro de URL
      */
     fun excluir(idCliente: Int) {
@@ -223,6 +229,7 @@ class ListaClientesFragment : Fragment() {
         /*
             Define o callback a ser executado quando o back end responder a
             chamada da função de remoção de cliente (DELETE)
+
             O tipo da função de callback (generics, diamond ou <>) precisa
             ser IDÊNTICO ao definido na classe de serviço onde esse callback
             será utilizado (mais abaixo, no último comando da função)
@@ -238,7 +245,7 @@ class ListaClientesFragment : Fragment() {
                 if (response.isSuccessful) {
                     /*
                         Se a chamada obteve sucesso, o cliente foi excluído, então
-                        mosrtra uma mensagem de sucesso e solicita a execução da
+                        mostra uma mensagem de sucesso e solicita a execução da
                         função de listagem, para que a lista seja obtida novamente da
                         API (sem o elemento excluído) e a tela seja recarregada para
                         mostrar que o item foi realmente apagado
@@ -247,7 +254,9 @@ class ListaClientesFragment : Fragment() {
                     listarClientes()
                 }
                 else {
+                    //Se a chamada obteve erro, mostra uma mensagem para o usuário e loga o erro
                     Snackbar.make(binding.root, "Não foi possível excluir", Snackbar.LENGTH_LONG).show()
+                    //Como o corpo do erro pode ser nulo, é preciso fazer uma verificação
                     val erro = response.errorBody()?.string()
                     erro?.let { Log.e("Erro", it) }
                 }

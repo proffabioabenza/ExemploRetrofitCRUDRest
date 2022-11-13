@@ -16,7 +16,7 @@ class API {
 
     /*
         Instância do Retrofit usada pelas chamadas
-        Aqui a instância do retrofit será criada,
+        Aqui, a instância do retrofit será criada,
         especificando o endereço base da API,
         o tipo de dado que a API retorna (ex. JSON)
         e configurações, como timeout e log
@@ -35,6 +35,7 @@ class API {
                 ou Runtime/Debug) todos os dados da chamada, para facilitar
                 o log de informações. O interceptador é configurado usando
                 um cliente HTTP, aqui criado com auxílio da classe OkHttpClient
+                e é completamente opcional (mas pode ajudar a debugar problemas)
              */
             val builder = OkHttpClient.Builder()
             builder.networkInterceptors().add(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
@@ -48,21 +49,31 @@ class API {
              */
             return Retrofit
                 .Builder()
-                    //10.0.2.2 é a ponte para localhost pelo emulador
-                    //Substituir pelo IP da máquina caso esteja num celular Android
-                    //A máquina onde está o JSON Server e o dispositivo Android
-                    //precisam estar na mesma rede wifi para que funcione
+                    /*
+                        10.0.2.2 é a ponte para localhost pelo emulador
+                        Substituir pelo IP da máquina caso esteja num celular Android
+                        A máquina onde está o JSON Server e o dispositivo Android
+                        precisam estar na mesma rede wifi para que funcione
+                    */
+
+                    //TROQUE AQUI PARA SEU IP CASO USE UM CELULAR PARA TESTAR
                 .baseUrl("http://10.0.2.2:3000/")
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
         }
 
+
     //Retorna os serviços para possibilitar a chamada da API
+
     //Serviço de cliente
     val cliente: ClienteService
         get() {
-            //Pede para o retrofit criar o serviço de cliente
+            /*
+                Pede para o retrofit criar o serviço de cliente
+                e o retorna quando a propriedade cliente acima
+                for utilizada
+            */
             return retrofit.create(ClienteService::class.java)
         }
 }

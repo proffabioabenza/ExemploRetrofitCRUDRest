@@ -41,8 +41,9 @@ class AdicionarClienteFragment(val idEdicao: Int?) : Fragment() {
         /*
             Se idEdicao não for nulo, está ocorrendo uma edição. Nesse caso,
             será preciso obter os dados do cliente chamando a API com o id
-            que veio como parâmetro para o fragmento, visando colocar os dados
-            que retornarem na tela para que o usuário possa editá-los
+            que veio como parâmetro para o fragmento (idEdicao), visando
+            colocar os dados que retornarem na tela para que o usuário
+            possa editá-los
         */
         if (idEdicao != null) {
             obterDadosCliente(idEdicao)
@@ -55,7 +56,7 @@ class AdicionarClienteFragment(val idEdicao: Int?) : Fragment() {
                 Nesse caso, o botão salvar deve chamar a função que
                 irá solicitar à API a inserção desse cliente
 
-                Se idEdicao não for nulo, está ocorrendo uma edição.
+                Se idEdicao tiver valor (else), está ocorrendo uma edição.
                 Nesse caso, o botão salvar deve chamar a função que
                 irá solicitar à API a edição dos dados do cliente
                 cujo ID foi fornecido como parâmetro para o fragmento
@@ -90,6 +91,7 @@ class AdicionarClienteFragment(val idEdicao: Int?) : Fragment() {
         /*
             Define o callback a ser executado quando o back end responder a
             chamada da função de inserção (POST)
+
             O tipo da função de callback (generics, diamond ou <>) precisa
             ser IDÊNTICO ao definido na classe de serviço onde esse callback
             será utilizado (mais abaixo, no último comando da função)
@@ -145,6 +147,7 @@ class AdicionarClienteFragment(val idEdicao: Int?) : Fragment() {
         /*
             Define o callback a ser executado quando o back end responder a
             chamada da função de obtenção de um cliente (GET)
+
             O tipo da função de callback (generics, diamond ou <>) precisa
             ser IDÊNTICO ao definido na classe de serviço onde esse callback
             será utilizado (mais abaixo, no último comando da função)
@@ -262,7 +265,7 @@ class AdicionarClienteFragment(val idEdicao: Int?) : Fragment() {
     /*
         Obtém os dados dos campos de texto da tela e os transforma
         em um objeto da classe de modelo de cliente, a ser utilizado
-        para enviar a API no corpo da requisição tanto na inserção
+        para enviar à API no corpo da requisição, tanto na inserção
         quanto na atualização
     */
     fun obterClienteDaTela(): Cliente {
@@ -291,6 +294,7 @@ class AdicionarClienteFragment(val idEdicao: Int?) : Fragment() {
     }
 
     //Mostra uma mensagem de falha de conexão e loga no console o problema
+    //Chamado pelo onFailer
     private fun mostrarFalha(t: Throwable) {
         Snackbar.make(binding.root, "Ocorreu um problema ao salvar", Snackbar.LENGTH_LONG).show()
         //Como o corpo do erro pode ser nulo, é preciso fazer uma verificação
@@ -299,6 +303,7 @@ class AdicionarClienteFragment(val idEdicao: Int?) : Fragment() {
     }
 
     //Mostra uma mensagem de erro e loga no console o problema
+    //Chamado caso isSuccessful retorne false
     private fun mostrarErro(response: Response<Cliente>) {
         Snackbar.make(binding.root, "Ocorreu um problema ao salvar", Snackbar.LENGTH_LONG).show()
         //Como o corpo do erro pode ser nulo, é preciso fazer uma verificação
@@ -307,6 +312,7 @@ class AdicionarClienteFragment(val idEdicao: Int?) : Fragment() {
     }
 
     //Mostra uma mensagem de sucesso, limpa os campos da tela e volta para a listagem
+    //Chamado caso o salvamento ocorra com sucesso (isSuccessful)
     private fun tratarSucesso() {
         Snackbar.make(binding.root, "Dados salvos", Snackbar.LENGTH_LONG).show()
         limparTela()
@@ -316,13 +322,13 @@ class AdicionarClienteFragment(val idEdicao: Int?) : Fragment() {
     //Recarrega o fragmento de listagem
     private fun voltarParaListagem() {
         /*
-            Cria uma instância do fragmento de inserção e edição
-            fornecendo o id do cliente que deve ser exibido como parâmetro
+            Cria uma instância do fragmento de listagem fornecendo
+            o id do cliente que deve ser exibido como parâmetro
         */
 
         val frag = ListaClientesFragment()
         /*
-            Solicite que o gestor de fragmento troque o fragmento atualmente no
+            Solicita que o gestor de fragmentos troque o fragmento atualmente no
             container pelo fragmento criado acima. Também adiciona a operação na pilha
             de retorno do Android, permitindo retornar ao fragmento anterior quando
             o botão voltar do sistema for pressionado

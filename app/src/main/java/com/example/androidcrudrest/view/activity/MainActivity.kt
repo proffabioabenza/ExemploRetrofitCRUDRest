@@ -10,7 +10,8 @@ import com.example.androidcrudrest.view.fragment.ListaClientesFragment
 
 /*
     Atividade principal, onde há o menu da bottom navigation e
-    o container para carregamento dos fragmentos
+    o container para carregamento dos fragmentos. É a atividade
+    aberta quando a aplicação é executada
  */
 class MainActivity : AppCompatActivity() {
     //Variável do binding automático, o tipo é
@@ -34,6 +35,8 @@ class MainActivity : AppCompatActivity() {
                 it, o parâmetro dessa closure, é o item de menu que foi clicado
                 O itemId de it contém o id desse menu. Usamos o id para verificar
                 qual foi o item clicado através de uma estrutura when
+
+                Os itens de menu estão no arquivo menu, em res > menu > menu.xml
             */
             when(it.itemId) {
                 //Se o id do item clicado foi adicionar...
@@ -43,26 +46,27 @@ class MainActivity : AppCompatActivity() {
                         é utilizado tanto para inserção quanto para edição. Isso é feito através
                         do parâmetro idEdicao em seu construtor, que indica se ele deve
                         tratar sua abertura como uma edição (caso o parâmetro seja fornecido,
-                        o utilizando como base para obter o cliente com aquele ID e permitir
-                        a edição dos dados) ou como inserção (caso não seja fornecido, ou seja,
+                        o utilizando como base para obter o cliente com aquele ID e seus dados cuja
+                        edição é desejada) ou como inserção (caso não seja fornecido, ou seja,
                         seja nulo).
 
                         Como queremos abrir o fragmento para inserção nesse caso, fornecemos null
                      */
                     val frag = AdicionarClienteFragment(null)
                     /*
-                        Solicite que o gestor de fragmento troque o fragmento atualmente no
+                        Solicita que o gestor de fragmentos troque o fragmento atualmente no
                         container pelo fragmento criado acima. Também adiciona a operação na pilha
                         de retorno do Android, permitindo retornar ao fragmento anterior quando
                         o botão voltar do sistema for pressionado
                      */
                     supportFragmentManager.beginTransaction().replace(R.id.container, frag).addToBackStack("Adicionar").commit()
                 }
+                //Se o id do item clicado foi listar...
                 R.id.listar -> {
                     //Cria uma instância do fragmento de listagem
                     val frag = ListaClientesFragment()
                     /*
-                        Solicite que o gestor de fragmento troque o fragmento atualmente no
+                        Solicita que o gestor de fragmentos troque o fragmento atualmente no
                         container pelo fragmento criado acima. Também adiciona a operação na pilha
                         de retorno do Android, permitindo retornar ao fragmento anterior quando
                         o botão voltar do sistema for pressionado

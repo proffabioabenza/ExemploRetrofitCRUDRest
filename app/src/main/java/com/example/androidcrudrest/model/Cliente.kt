@@ -1,10 +1,14 @@
 package com.example.androidcrudrest.model
 
-/*Dados do modelo
+/*
+    Dados do modelo, classe equivalente ao retorno
+    JSON da API
+
     O modelo de objeto do Kotlin precisa ter
     estrutura (nomes, tipos, hierarquia) IDÊNTICA
-    ao JSON que retorna do Laravel, caso contrário
-    ocorrerão erros diversos na chamada do Retrofit
+    ao JSON que retorna do json-server/Laravel, caso
+    contrário ocorrerão erros diversos na chamada
+    do Retrofit
  */
 data class Cliente(
     /*
@@ -12,8 +16,8 @@ data class Cliente(
         ser nulo) para que seja possível criar uma instância
         de cliente sem a necessidade de fornecer um id e para
         que o JSON enviado para o backend em situações de inserção
-        não contenha um valor padrão para id, o que poderia causar
-        problemas nas funções de atualização do back end
+        ou atualização não contenha um valor padrão para id, o qu
+        poderia causar problemas nas funções do back
      */
     var id: Int? = null,
 
@@ -23,6 +27,8 @@ data class Cliente(
     /*
         Caso algum parâmetero seja opcional, é possível fornecer um
         valor padrão a variável, como abaixo (semelhante ao Angular)
+
+        Está aqui apenas para exemplo
      */
     var telefone: String = ""
 )
