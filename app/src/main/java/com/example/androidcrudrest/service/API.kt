@@ -31,7 +31,7 @@ class API {
         get() {
             /*
                 Aqui, estamos utilizando um interceptador para registrar
-                todas as chamdas ao Laravel e colocar no console (Logcat
+                todas as chamadas ao Laravel e colocar no console (Logcat
                 ou Runtime/Debug) todos os dados da chamada, para facilitar
                 o log de informações. O interceptador é configurado usando
                 um cliente HTTP, aqui criado com auxílio da classe OkHttpClient
